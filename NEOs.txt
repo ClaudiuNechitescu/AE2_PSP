@@ -10,3 +10,4 @@ Doom,325.1,1975.4
 Death by Rock,432.5,842.5
 Ctrl+Alt+Supr,321.8,987.8
 Windows Blue Screen,31.8,999.9
+RobertoNoTengoTiempoParaHacerTodasLasEvaluablesFrenaPorFavor,65.7,748.6

@@ -2,7 +2,11 @@ package es.florida.AE2_PSP;
 import java.io.*;
 import java.text.DecimalFormat;
 public class CalcularProbabilidad {
-
+	/**
+	 * Método que calcula la probabilidad de colisión de un NEO
+	 * 
+	 * @author Claudiu Andrei Nechitescu
+	 * */
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		File fichero=new File(args[0]+".txt");
@@ -24,7 +28,7 @@ public class CalcularProbabilidad {
 		fw.close();
 		fichero.createNewFile();
 		DecimalFormat df = new DecimalFormat("0.00");
-		System.err.println(resultado>10?"Pos sacabao: " + df.format(resultado):"Pos vivimos: "+ df.format(resultado));
+		System.err.println(args[0]+" - "+(resultado>10?"Pos sacabao: " + df.format(resultado):"Pos vivimos: "+ df.format(resultado)));
 	}
 
 }
