@@ -13,8 +13,11 @@ public class Lanzador {
 	 * @param pos Posición del NEO
 	 * @param vel Velocidad del NEO
 	 * */
-	public void calculoProbabilidad(String nom, Double pos, Double vel) {
+	@SuppressWarnings("finally")
+	public List<String> calculoProbabilidad(String nom, Double pos, Double vel) {
 		String clase = "es.florida.AE2_PSP.CalcularProbabilidad";
+		List<String> command = new ArrayList<>();
+
 		try {
 
 			String javaHome = System.getProperty("java.home");
@@ -22,7 +25,6 @@ public class Lanzador {
 			String classpath = System.getProperty("java.class.path");
 			String className = clase;
 
-			List<String> command = new ArrayList<>();
 			command.add(javaBin);
 			command.add("-cp");
 			command.add(classpath);
@@ -31,12 +33,11 @@ public class Lanzador {
 			command.add(pos.toString());
 			command.add(vel.toString());
 
-			ProcessBuilder builder = new ProcessBuilder(command);
-			Process process = builder.inheritIO().start();
-			process.waitFor();
-
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally {
+			return command;
 		}
 	}
 	/**
@@ -53,10 +54,9 @@ public class Lanzador {
 		String linea = "";
 		String[] datos;
 		Lanzador l = new Lanzador();
-		long tiempoInicioNEO;
-		long tiempoFinalNEO;
 		long tiempoInicioApp;
 		long tiempoFinalApp;
+		Process process = null;
 		tiempoInicioApp = System.currentTimeMillis();
 		do {
 			
@@ -67,17 +67,14 @@ public class Lanzador {
 					neo.nombre = datos[0];
 					neo.posicion = Double.parseDouble(datos[1]);
 					neo.velocidad = Double.parseDouble(datos[2]);
-					tiempoInicioNEO = System.currentTimeMillis();
-					l.calculoProbabilidad(neo.nombre, neo.posicion, neo.velocidad);
-					tiempoFinalNEO = System.currentTimeMillis();
-					System.out.println("Tiempo de ejecución " + neo.nombre + ": "
-							+ (tiempoFinalNEO - tiempoInicioNEO) / 1000 + " segundos");
+					ProcessBuilder builder=new ProcessBuilder(l.calculoProbabilidad(neo.nombre, neo.posicion, neo.velocidad));
+					process = builder.inheritIO().start();
 					}
 					else {
 						break;
 					}
 				}
-			
+			process.waitFor();
 		} while (linea != null);
 		tiempoFinalApp = System.currentTimeMillis();
 		System.out.println("Tiempo de ejecución total: " + (tiempoFinalApp - tiempoInicioApp) / 1000 + " segundos");
